@@ -1,0 +1,194 @@
+{% extends "layout.html" %}
+{% block title %} Comptes {% endblock title %}
+{% block content %} 
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Liste des étudiants:</h3>
+
+          <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+            </div>
+           
+                <button style="margin-left: 90%;" type="button" class="btn btn-success ml-6 mb-3" data-toggle="modal" data-target="#exampleModalCenter"> Créer</button>
+
+             
+            
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Email</th>
+                <th>Niveau</th>
+                <th>Specialité</th>
+                <th> operation</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users %}
+              <tr>
+                <td>{{user.id}}</td>
+                <td>{{user.nom}}</td>
+                <td>{{user.prenom}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.niveau}}</td>
+                <td>{{user.specialite}}</td>
+                <td>
+                  <a class="btn " href="{{ url_for('update_user', user_id = user.id) }}"  style="background-color: #00a8cc"  ><small style="color: #fff">Modifier</small> </a>
+                  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ user.id }}">Retirer</button>
+                      </td>
+                      <div class="modal fade"  id="deleteModal{{ user.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="deleteModalLabel">Êtes-vous sûr ?</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                              <form action="{{ url_for('delete_user', user_id = user.id) }}" method="POST">
+                                <input class="btn btn-danger" type="submit" value="Delete">
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+         
+          
+                              <!-- Modal -->
+                              <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLongTitle">Formulaire d'ajout</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    
+                                      <div class="modal-body">
+                                        <div class="content-section">
+                                          <form method="POST" action="">
+                                              {{ form.hidden_tag() }}
+                                              <fieldset class="form-group">
+                                                  <div class="form-group">
+                                                      {{ form.nom.label(class="form-control-label") }}            
+                                                      {% if form.nom.errors %}
+                                                          {{ form.nom(class="form-control form-control-lg is-invalid") }}
+                                                          <div class="invalid-feedback">
+                                                              {% for error in form.nom.errors %}
+                                                                  <span>{{ error }}</span>
+                                                              {% endfor %}
+                                                          </div>
+                                                      {% else %}
+                                                          {{ form.nom(class="form-control form-control-lg") }}
+                                                      {% endif %}
+                                                  </div>
+                                                  <div class="form-group">
+                                                    {{ form.prenom.label(class="form-control-label") }}
+                                
+                                                    {% if form.prenom.errors %}
+                                                        {{ form.prenom(class="form-control form-control-lg is-invalid") }}
+                                                        <div class="invalid-feedback">
+                                                            {% for error in form.prenom.errors %}
+                                                                <span>{{ error }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        {{ form.prenom(class="form-control form-control-lg") }}
+                                                    {% endif %}
+                                                </div>
+                                                  <div class="form-group">
+                                                      {{ form.email.label(class="form-control-label") }}
+                                                      {% if form.email.errors %}
+                                                          {{ form.email(class="form-control form-control-lg is-invalid") }}
+                                                          <div class="invalid-feedback">
+                                                              {% for error in form.email.errors %}
+                                                                  <span>{{ error }}</span>
+                                                              {% endfor %}
+                                                          </div>
+                                                      {% else %}
+                                                          {{ form.email(class="form-control form-control-lg") }}
+                                                      {% endif %}
+                                                  </div>
+                                                  <div class="form-group">
+                                                      {{ form.password.label(class="form-control-label") }}
+                                                      {% if form.password.errors %}
+                                                          {{ form.password(class="form-control form-control-lg is-invalid") }}
+                                                          <div class="invalid-feedback">
+                                                              {% for error in form.password.errors %}
+                                                                  <span>{{ error }}</span>
+                                                              {% endfor %}
+                                                          </div>
+                                                      {% else %}
+                                                          {{ form.password(class="form-control form-control-lg") }}
+                                                      {% endif %}
+                                                  </div>
+                                                  <div class="form-group">
+                                                    {{ form.niveau.label(class="form-control-label") }}
+                                
+                                                    {% if form.niveau.errors %}
+                                                        {{ form.niveau(class="form-control form-control-lg is-invalid") }}
+                                                        <div class="invalid-feedback">
+                                                            {% for error in form.niveau.errors %}
+                                                                <span>{{ error }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        {{ form.niveau(class="form-control form-control-lg") }}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="form-group">
+                                                  {{ form.specialite.label(class="form-control-label") }}
+                              
+                                                  {% if form.specialite.errors %}
+                                                      {{ form.specialite(class="form-control form-control-lg is-invalid") }}
+                                                      <div class="invalid-feedback">
+                                                          {% for error in form.specialite.errors %}
+                                                              <span>{{ error }}</span>
+                                                          {% endfor %}
+                                                      </div>
+                                                  {% else %}
+                                                      {{ form.specialite(class="form-control form-control-lg") }}
+                                                  {% endif %}
+                                              </div>
+                                              </fieldset>
+                                              <div class="modal-footer">
+                                                <div style='float: right;' class="form-group">
+                                                  {{ form.submit(class="btn btn-outline-info") }}
+                                              </div>
+                                              
+                                              </div>
+                                             
+                                              </div>
+                                          </form>
+                                      </div>
+                                    
+                              
+                                    
+                                    </div>
+                                  
+                                  </div>
+                                </div>
+           
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+{% endblock content %}

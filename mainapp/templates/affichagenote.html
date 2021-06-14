@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %} Notes {% endblock title %}
+{% block content %} 
+<a href="{{ url_for('notes') }}" class="btn btn-primary mb-2">Retour</a>
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">Etudiant(e) : {{user.nom}} {{user.prenom}}</a>
+    <a class="navbar-brand" href="#">Specialité : {{user.specialite}}</a>
+    <a class="navbar-brand" href="#">Niveau : {{user.niveau}}</a>
+  </nav>
+  <div class="card-body table-responsive p-0">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Module</th>
+          <th>Matiére</th>
+          <th>Note DS</th>
+          <th>Note Examen</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% if matieres %}
+        {% for matiere in matieres %}
+        <tr>
+          <td>{{matiere.module}}</td>
+          <td>{{matiere.nom}}</td>
+          <td>{% for noteds in notesds %}
+            {% if noteds.matiere_id == matiere.id %}
+                {{ noteds.note }} 
+            {% endif %}
+            {% endfor %}
+          </td>
+          <td>{% for noteexamen in notesexamen %}
+            {% if noteexamen.matiere_id == matiere.id %}
+                {{ noteexamen.note }} 
+            {% endif %}
+            {% endfor %}
+          </td>
+        </tr>
+        {% endfor %}
+       {% endif %}
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}

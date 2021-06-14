@@ -1,0 +1,187 @@
+{% extends "layout.html" %}
+{% block title %} Matiéres {% endblock title %}
+{% block content %} 
+<div class="row">
+ 
+    <div class="col-12">
+      <a href="{{ url_for('matiere') }}" class="btn btn-primary mb-2">Retour</a>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Liste des Matiéres :</h3>
+
+          <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+            </div>
+           
+                <button style="margin-left: 90%;" type="button" class="btn btn-success ml-6 mb-3" data-toggle="modal" data-target="#exampleModalCenter"> Ajouter</button>
+
+             
+            
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Semestre</th>
+                <th>Niveau</th>
+                <th>Specialité</th>
+                <th>Module</th>
+                <th>coefficient</th>
+                <th>opération</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for matiere in matieres %}
+              <tr>
+                <td>{{matiere.id}}</td>
+                <td>{{matiere.nom}}</td>
+                <td>{{matiere.semestre}}</td>
+                <td>{{matiere.niveau}}</td>
+                <td>{{matiere.specialite}}</td>
+                <td>{{matiere.module}}</td>
+                <td>{{matiere.coefficient}}</td>
+                <td>
+                  <a class="btn" href="{{ url_for('update_mats1', matiere_id = matiere.id) }}"  style="background-color: #00a8cc"  ><small style="color: #fff">Modifier</small> </a>
+                  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ matiere.id }}">Supprimer</button>
+                  <div class="modal fade"  id="deleteModal{{ matiere.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteModalLabel">Êtes-vous sûr ?</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                          <form action="{{ url_for('delete_matS1', matiere_id = matiere.id) }}" method="POST">
+                            <input class="btn btn-danger" type="submit" value="Delete">
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                </div>      
+                </td>
+                     
+              </tr>
+              {% endfor %}
+             
+            </tbody>
+          </table>
+         
+          
+                              <!-- Modal -->
+                              <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLongTitle">Formulaire d'ajout</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    
+                                      <div class="modal-body">
+                                        <div class="content-section">
+                                          <form method="POST" action="">
+                                              {{ form.hidden_tag() }}
+                                              <fieldset class="form-group">
+                                                <div class="form-group">
+                                                    {{ form.nom.label(class="form-control-label") }}            
+                                                    {% if form.nom.errors %}
+                                                        {{ form.nom(class="form-control form-control-lg is-invalid") }}
+                                                        <div class="invalid-feedback">
+                                                            {% for error in form.nom.errors %}
+                                                                <span>{{ error }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        {{ form.nom(class="form-control form-control-lg") }}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="form-group">
+                                                  {{ form.niveau.label(class="form-control-label") }}
+                                                  {% if form.niveau.errors %}
+                                                      {{ form.niveau(class="form-control form-control-lg is-invalid") }}
+                                                      <div class="invalid-feedback">
+                                                          {% for error in form.niveau.errors %}
+                                                              <span>{{ error }}</span>
+                                                          {% endfor %}
+                                                      </div>
+                                                  {% else %}
+                                                      {{ form.niveau(class="form-control form-control-lg") }}
+                                                  {% endif %}
+                                              </div>
+                                              <div class="form-group">
+                                                {{ form.specialite.label(class="form-control-label") }}
+                                                {% if form.specialite.errors %}
+                                                    {{ form.specialite(class="form-control form-control-lg is-invalid") }}
+                                                    <div class="invalid-feedback">
+                                                        {% for error in form.specialite.errors %}
+                                                            <span>{{ error }}</span>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% else %}
+                                                    {{ form.specialite(class="form-control form-control-lg") }}
+                                                {% endif %}
+                                            </div>
+                                              <div class="form-group">
+                                                {{ form.module.label(class="form-control-label") }}
+                            
+                                                {% if form.module.errors %}
+                                                    {{ form.module(class="form-control form-control-lg is-invalid") }}
+                                                    <div class="invalid-feedback">
+                                                        {% for error in form.module.errors %}
+                                                            <span>{{ error }}</span>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% else %}
+                                                    {{ form.module(class="form-control form-control-lg") }}
+                                                {% endif %}
+                                            </div>
+                                            <div class="form-group">
+                                              {{ form.coefficient.label(class="form-control-label") }}
+                          
+                                              {% if form.coefficient.errors %}
+                                                  {{ form.coefficient(class="form-control form-control-lg is-invalid") }}
+                                                  <div class="invalid-feedback">
+                                                      {% for error in form.coefficient.errors %}
+                                                          <span>{{ error }}</span>
+                                                      {% endfor %}
+                                                  </div>
+                                              {% else %}
+                                                  {{ form.coefficient(class="form-control form-control-lg") }}
+                                              {% endif %}
+                                          </div>
+                
+                                            </fieldset>
+                                            <div class="modal-footer">
+                                              <div style='float: right;' class="form-group">
+                                                {{ form.submit(class="btn btn-outline-info") }}
+                                            </div>
+                                              
+                                              </div>
+                                             
+                                              </div>
+                                          </form>
+                                      </div>
+                                    
+                              
+                                    
+                                    </div>
+                                  
+                                  </div>
+                                </div>
+           
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+
+{% endblock content %}

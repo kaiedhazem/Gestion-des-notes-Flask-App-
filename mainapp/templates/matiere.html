@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block title %} Matiéres {% endblock title %}
+{% block content %} 
+
+<h3 style='margin-top: 10%;'>Selectionnez le Semestre correspondante:</h3>
+
+<div class="row" style='margin-top: 10%;'>
+    <div class="col-md-3">
+  
+      </div>
+      
+    <div class="col-md-3">
+      <div class="card bg-primary">
+        <div class="card-header">
+          
+
+          <div class="card-tools">
+            <a href="{{ url_for('matieresem1') }}" class="btn btn-tool" data-card-widget="collapse"><center><h3 class="card-title">Semestre 1</h3></center>
+            </a>
+          </div>
+          <!-- /.card-tools -->
+        </div>
+        <!-- /.card-header -->
+        
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3">
+      <div class="ard bg-primary">
+        <div class="card-header">
+
+          <div class="card-tools">
+            <a href="{{ url_for('matieresem2') }}" class="btn btn-tool" data-card-widget="collapse"><center><h3 class="card-title">Semestre 2</h3></center>
+            </a>
+          </div>
+          <!-- /.card-tools -->
+        </div>
+       
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      
+</div>
+
+
+
+
+
+{% endblock content %}

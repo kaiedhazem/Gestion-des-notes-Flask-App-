@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block title %} Update Matiere {% endblock title %}
+{% block content %} 
+<div class="row" style="margin-left: 20%;">
+    <div class="col-md-8">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Modifier matiere</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" action="{{ url_for('update_mats1', matiere_id = matiere_id) }}">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nom</label>
+                    <input value="{{matiere.nom}}"type="text" name="nom" class="form-control" id="exampleInputEmail1" >
+                  </div>
+              <div class="form-group">
+                <label>Niveau</label>
+                <select class="form-control" name="niveau">
+                  <option value="Premiere">Premiere</option>
+                  <option value="Deuxieme">Deuxieme</option>
+                  <option value="Trosieme">Trosieme</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Specialité</label>
+                <select class="form-control" name="specialite">
+                  <option value="IDL">IDL</option>
+                  <option value="IDISC">IDISC</option>
+                  <option value="ISEOAC">ISEOAC</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Module</label>
+                <input value="{{matiere.module}}" type="text" name="module" class="form-control" id="exampleInputEmail1">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Coefficient</label>
+                <input value="{{matiere.coefficient}}" type="float" name="coeff" class="form-control" id="exampleInputEmail1">
+              </div>
+              <div class="card-footer">
+                <button type="submit" class="btn btn-info">Update</button>
+                <a href="{{ url_for('matieresem1') }}" class="btn btn-default float-right">Cancel</a>
+              </div>
+              </form>
+            </form>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+</div>
+{% endblock content %}

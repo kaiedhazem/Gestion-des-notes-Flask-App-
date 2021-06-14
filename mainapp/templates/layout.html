@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <!-- Required meta tags -->
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+     <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ 
+     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+     {{ fontawesome_html() }}
+     
+        <title>{% block title %}{% endblock %}</title>
+    
+
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          {% if current_user.role == 'admin' %}
+          <a class="navbar-brand mr-4" href="{{ url_for('accueil') }}">Gestion de notes</a>
+          {% endif %}
+          {% if current_user.role == 'etudiant' %}
+          <a class="navbar-brand mr-4" href="#"> Bienvenue &nbsp; <small> {{  current_user.nom  }} {{ current_user.prenom }} </small></a>
+          {% endif %}
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+       -   </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            
+            <div class="navbar-nav mr-auto">
+              {% if current_user.role == 'admin' %}
+              <a class="nav-item nav-link" href="{{ url_for('compte') }}">Comptes</a>
+              <a class="nav-item nav-link"  href="{{ url_for('matiere') }}">Matiéres</a>
+              <a class="nav-item nav-link"  href="{{ url_for('notes') }}">Notes</a>
+              {% endif %}
+            </div>
+           
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+            
+              <a class="nav-item nav-link" href="{{ url_for('logout') }}">Deconnexion</a>
+             
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    {% if current_user.role == 'admin' %}
+    <main role="main" class="container">
+      
+      {% block content %}{% endblock %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    </main>
+    {% endif %}
+    {% if current_user.role == 'etudiant' %}
+    
+    <main role="main" class="container">
+      <form class="form-inline" method="POST" action="{{url_for('home')}}">
+    
+        <div class="form-group mx-sm-3 mb-2">
+          <label for="inputPassword2" class="sr-only">Semestre</label>
+          <select class="form-control" name="semestre">
+            <option value='1'>Semestre 1</option>
+            <option value='2'>Semestre 2</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Confirmer</button>
+      </form>
+      <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Specialité : {{current_user.specialite}}</a>
+        <a class="navbar-brand" href="#">Niveau : {{current_user.niveau}}</a>
+      </nav>
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>Matiére</th>
+              <th>Note DS</th>
+              <th>Note Examen</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {% if matieres %}
+            {% for matiere in matieres %}
+            <tr>
+              <td>{{matiere.module}}</td>
+              <td>{{matiere.nom}}</td>
+              <td>{% for noteds in notesds %}
+                {% if noteds.matiere_id == matiere.id %}
+                    {{ noteds.note }} 
+                {% endif %}
+                {% endfor %}
+              </td>
+              <td>{% for noteexamen in notesexamen %}
+                {% if noteexamen.matiere_id == matiere.id %}
+                    {{ noteexamen.note }} 
+                {% endif %}
+                {% endfor %}
+              </td>
+            </tr>
+            {% endfor %}
+           {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    {% endif %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
+
+</body>
+</html>
